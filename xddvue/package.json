@@ -15,10 +15,15 @@
     "marked": "^12.0.1",
     "vue": "^3.2.47",
     "vue-markdown": "^2.2.4",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vue-server-renderer": "^2.7.16"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.1.0",
-    "vite": "^4.2.0"
+    "unplugin-auto-import": "^0.17.5",
+    "unplugin-icons": "^0.18.5",
+    "unplugin-vue-components": "^0.26.0",
+    "vite": "^4.2.0",
+    "vite-plugin-compression": "^0.5.1"
   }
 }
