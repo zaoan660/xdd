@@ -1,16 +1,13 @@
 <template>
   <!-- 导航栏 -->
   <el-menu :default-active="activeIndex" mode="horizontal" :ellipsis="false" >
-    <!-- 头像和名字 -->
-    <el-menu-item index="1">
+    <!-- 头像和名字 TODO: 这段应该是可以点击的,哪怕什么都不发生都应该把鼠标换成可点击的那个手的图标-->
       <div class="profile">
         <el-avatar :size="50" :src="avatarSrc"></el-avatar>
         <span class="name">{{ userName }}</span>
       </div>
-    </el-menu-item>
     <div class="flex-grow" />
     <el-menu-item index="blog">网站开发日志</el-menu-item>
-    <el-menu-item index="homework">小工具开发日志</el-menu-item>
   </el-menu>
 </template>
 

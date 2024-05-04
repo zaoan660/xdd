@@ -1,0 +1,20 @@
+xdd:
+  path:
+    image:
+      location: /home/lighthouse/images
+      http: http://81.70.243.90/img
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/xdd?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: root
+    druid:
+      initial-size: 1
+      min-idle: 1
+      max-active: 5
+
+mybatis:
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath*:site/**/mapper/*.xml
