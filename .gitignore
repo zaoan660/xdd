@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 *.zip
 .vscode
+
+# 自己配置的
+*.iml
+*.jar
