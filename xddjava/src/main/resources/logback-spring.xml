@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <contextName>logback</contextName>
+
+    <!-- name的值是变量的名称，value的值时变量定义的值。通过定义的值会被插入到logger上下文中。定义后，可以使“${}”来使用变量。 -->
+<!--    我们可以自己在配置文件配置变量,然后使用下面的标签引用,这里用不上所以注释掉了,仅仅作为一个例子 -->
+<!--    <springProperty scope="context" name="myLogLocation" source="logging.file-location" default="/var/log/myapp"/>-->
+    <property name="log.path" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-.}}/logs}"/>
+
+    <!--引用默认日志配置-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!--使用默认的控制台日志输出实现-->
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文档的路径及文档名, 经过测试加上下面这行比较好
+        这样每天生成的日志都在同一个位置,过了rollingPolicy里条件则会再生成文件 -->
+        <file>${log.path}/debug.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger - %msg%n</pattern>
+            <charset>UTF-8</charset> <!-- 设置字符集 -->
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 日志归档 -->
+            <fileNamePattern>${log.path}/debug/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+
+    <appender name="WARN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/warn.log</file>
+        <encoder>
+            <!-- <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger %n  %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/warn/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>warn</level>
+        </filter>
+    </appender>
+
+
+    <!--  基本策略(root级) + 根据profile在启动时, logger标签中定制化package日志级别(优先级高于上面的root级)-->
+<!--    springProfile 好像是用来指定在不同环境下的配置,可是我加上后,直接没有log输出了 -->
+<!--    <springProfile name="dev">-->
+        <root level="info">
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="DEBUG_FILE" />
+            <appender-ref ref="WARN_FILE" />
+        </root>
+        <logger name="site.xiaodingdang.xddjava" level="debug"/>
+<!--    </springProfile>-->
+    <!--
+        <logger>用来设置某一个包或者具体的某一个类的日志打印级别、
+        以及指定<appender>。<logger>仅有一个name属性，
+        一个可选的level和一个可选的addtivity属性。
+        name:用来指定受此logger约束的某一个包或者具体的某一个类。
+        level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，
+              还有一个特殊值INHERITED或者同义词NULL，代表强制执行上级的级别。
+              如果未设置此属性，那么当前logger将会继承上级的级别。
+        addtivity:是否向上级logger传递打印信息。默认是true。
+        <logger name="org.springframework.web" level="info"/>
+        <logger name="org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor" level="INFO"/>
+    -->
+</configuration>
+

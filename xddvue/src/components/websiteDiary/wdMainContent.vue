@@ -1,30 +1,17 @@
 <template>
-  <div>
-    <markdown-renderer :markdown-text="markdownString"></markdown-renderer>
+  <div class="markdown-container">
+    <markdown-renderer :markdown-text="props.data"></markdown-renderer>
   </div>
 </template>
 
-<script>
+<script setup>
 import MarkdownRenderer from '../MarkdownRenderer.vue';
+import { ref, computed } from 'vue'
+const props = defineProps(['data'])
 
-export default {
-  components: {
-    MarkdownRenderer
-  },
-  data() {
-    return {
-      markdownString: `# 示例Markdown文本
-
-这是一段 **加粗** 的文字，并且有 *斜体*。
-
-\`\`\`javascript
-function greet() {
-  console.log('Hello, world!');
-}
-greet();
-\`\`\`
-`
-    };
-  }
-};
 </script>
+<style scoped>
+.markdown-container {
+  padding: 0 100px;
+}
+</style>

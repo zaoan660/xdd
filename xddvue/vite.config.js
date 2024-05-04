@@ -25,7 +25,6 @@ export default defineConfig({
       verbose: true,
       threshold: 10240,
       algorithm: 'gzip',
-      deleteOriginFile: true
     })
   ],
 
